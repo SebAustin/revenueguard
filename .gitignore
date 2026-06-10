@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.eggs/
+
+# Env / secrets — NEVER commit real credentials
+.env
+.env.local
+*.key
+*.json.key
+service-account*.json
+
+# Fivetran MCP server is vendored at deploy time, not committed here
+# (keep the directory but ignore a cloned checkout)
+vendor/fivetran-mcp/
+
+# Local tooling
+.DS_Store
+.adk/
+*.log

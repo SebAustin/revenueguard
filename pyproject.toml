@@ -1,0 +1,37 @@
+[project]
+name = "revenueguard"
+version = "0.1.0"
+description = "Agentic revenue-leak auditor for B2B SaaS finance teams — Gemini 3 + Google ADK + Fivetran MCP + BigQuery."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "RevenueGuard" }]
+
+dependencies = [
+    # Google Cloud Agent Builder, code-first surface.
+    "google-adk>=1.0.0",
+    # MCP client used by ADK's McpToolset to launch the Fivetran server over stdio.
+    "mcp>=1.0.0",
+    # The warehouse.
+    "google-cloud-bigquery>=3.25.0",
+    # Vertex AI / Gemini access.
+    "google-genai>=1.0.0",
+    # Loads .env in local dev (adk web / adk run).
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.6.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["revenueguard"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
