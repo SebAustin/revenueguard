@@ -1,0 +1,19 @@
+# Upload list for `gcloud builds submit` — overrides .gitignore (which excludes
+# vendor/fivetran-mcp; the build NEEDS it). Never upload secrets or local junk.
+.git
+.gitignore
+.gcloudignore
+.venv/
+.env
+.env.*
+__pycache__/
+*.pyc
+.DS_Store
+# media + docs not needed in the image
+docs/
+deploy/video/
+deploy/*.mp4
+deploy/*.png
+deploy/*.html
+# the vendored MCP's own git metadata
+vendor/fivetran-mcp/.git/

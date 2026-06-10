@@ -25,7 +25,13 @@ load_dotenv()
 _MODEL = os.environ.get("RG_MODEL", "gemini-2.5-pro")
 
 # Absolute path to the vendored Fivetran MCP server (resolved regardless of cwd).
-_MCP_DIR = pathlib.Path(__file__).resolve().parent.parent / "vendor" / "fivetran-mcp"
+# FIVETRAN_MCP_DIR overrides for containers where the repo layout differs.
+_MCP_DIR = pathlib.Path(
+    os.environ.get(
+        "FIVETRAN_MCP_DIR",
+        pathlib.Path(__file__).resolve().parent.parent / "vendor" / "fivetran-mcp",
+    )
+)
 
 # ---------------------------------------------------------------------------
 # Fivetran MCP toolset — the partner integration the judges grade.

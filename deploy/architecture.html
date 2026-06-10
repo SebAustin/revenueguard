@@ -68,19 +68,19 @@
     <!-- user -> agent -->
     <path d="M 218 130 H 360" stroke="#2BD9A6" stroke-width="2.5" fill="none" marker-end="url(#ag)"/>
     <!-- agent -> fivetran mcp (left down) -->
-    <path d="M 520 258 V 420 H 420" stroke="#2BD9A6" stroke-width="2.5" fill="none" marker-end="url(#ag)"/>
+    <path d="M 520 284 V 420 H 420" stroke="#2BD9A6" stroke-width="2.5" fill="none" marker-end="url(#ag)"/>
     <!-- fivetran mcp -> fivetran cloud -->
-    <path d="M 250 530 V 610" stroke="#2BD9A6" stroke-width="2.5" fill="none" marker-end="url(#ag)"/>
+    <path d="M 250 596 V 630" stroke="#2BD9A6" stroke-width="2.5" fill="none" marker-end="url(#ag)"/>
     <!-- fivetran cloud -> bigquery (sync) -->
-    <path d="M 470 700 H 880" stroke="#FFD479" stroke-width="2.5" stroke-dasharray="9 7" fill="none" marker-end="url(#aw)"/>
+    <path d="M 470 715 H 880" stroke="#FFD479" stroke-width="2.5" stroke-dasharray="9 7" fill="none" marker-end="url(#aw)"/>
     <!-- agent -> bigquery tools (right down) -->
-    <path d="M 760 258 V 420 H 860" stroke="#8FA0FF" stroke-width="2.5" fill="none" marker-end="url(#ap)"/>
+    <path d="M 760 284 V 420 H 860" stroke="#8FA0FF" stroke-width="2.5" fill="none" marker-end="url(#ap)"/>
     <!-- bigquery tools -> dataset -->
-    <path d="M 1040 530 V 610" stroke="#8FA0FF" stroke-width="2.5" fill="none" marker-end="url(#ap)"/>
+    <path d="M 1040 596 V 630" stroke="#8FA0FF" stroke-width="2.5" fill="none" marker-end="url(#ap)"/>
     <!-- agent -> report tools (far right) -->
     <path d="M 935 190 H 1120" stroke="#8FA0FF" stroke-width="2.5" fill="none" marker-end="url(#ap)"/>
     <!-- sources -> fivetran cloud -->
-    <path d="M 110 640 V 660 " stroke="#5A66A0" stroke-width="2" fill="none"/>
+    
   </svg>
 
   <!-- User / UI -->
@@ -90,7 +90,7 @@
   </div>
 
   <!-- Agent -->
-  <div class="box green agent" style="left:360px;top:60px;width:575px;height:198px">
+  <div class="box green agent" style="left:360px;top:60px;width:575px;height:224px">
     <h3><span class="ic">🛡️</span>RevenueGuard Agent — ADK LlmAgent (Agent Builder)</h3>
     <div class="d">Instruction enforces the mandatory sequence: <b style="color:#2BD9A6">1 verify freshness → 2 audit → 3 quantify &amp; report</b>. Proposes writes; the human approves them.</div>
     <span class="model">gemini-2.5-pro · Vertex AI</span>
@@ -107,36 +107,36 @@
   <div class="lbl" style="left:430px;top:330px">① freshness gate — health / last-sync / resume / re-sync</div>
   <div class="lbl purple" style="left:790px;top:330px">② leak SQL ×5</div>
   <div class="lbl purple" style="left:960px;top:158px">③ rank &amp; report</div>
-  <div class="lbl gold" style="left:580px;top:668px">Fivetran sync lands billing data</div>
+  <div class="lbl gold" style="left:580px;top:683px">Fivetran sync lands billing data</div>
 
   <!-- Fivetran MCP -->
-  <div class="box green" style="left:60px;top:420px;width:360px;height:110px">
+  <div class="box green" style="left:60px;top:420px;width:360px;height:176px">
     <h3><span class="ic">🔌</span>Fivetran MCP server</h3>
     <div class="d">stdio child via <b>uvx</b> · official fivetran/fivetran-mcp<br>
     <b>list_connections · get_connection_details · modify_connection · sync_connection</b></div>
   </div>
 
   <!-- BigQuery tools -->
-  <div class="box blue" style="left:860px;top:420px;width:360px;height:110px">
+  <div class="box blue" style="left:860px;top:420px;width:360px;height:176px">
     <h3><span class="ic">🔎</span>Leak detection (FunctionTools)</h3>
     <div class="d">5 deterministic SQL families: failed payments, expired cards, usage-on-cancelled, overdue renewals, expired discounts</div>
   </div>
 
   <!-- Report tools -->
-  <div class="box blue" style="left:1120px;top:130px;width:352px;height:128px">
+  <div class="box blue" style="left:1120px;top:130px;width:352px;height:156px">
     <h3><span class="ic">📊</span>Reporting (deterministic)</h3>
     <div class="d"><b>compute_exposure</b> → $/finding, annualized<br><b>build_report</b> → ranked markdown + JSON<br>No LLM calls — same numbers every run</div>
   </div>
 
   <!-- Fivetran cloud -->
-  <div class="box gold" style="left:60px;top:610px;width:410px;height:128px">
+  <div class="box gold" style="left:60px;top:630px;width:410px;height:162px">
     <h3><span class="ic">🚰</span>Fivetran (pipeline layer)</h3>
     <div class="d">Connector <b>stripe_billing</b> → BigQuery destination.<br>Status: paused / broken / stale &gt;24h ⇒ <b style="color:#FFD479">the agent refuses to audit</b> until re-synced.</div>
     <span class="chip" style="color:#FFD479;border-color:rgba(255,212,121,.4);background:rgba(255,212,121,.08)">sources: Stripe · billing DB · CRM</span>
   </div>
 
   <!-- BigQuery dataset -->
-  <div class="box blue" style="left:880px;top:610px;width:592px;height:128px">
+  <div class="box blue" style="left:880px;top:630px;width:592px;height:162px">
     <h3><span class="ic">🗄️</span>BigQuery — revenueguard_demo</h3>
     <div class="d">Fivetran-shaped landed tables: customers · subscriptions · invoices · payments · payment_methods · usage_events · discounts (each with <b>_fivetran_synced</b>)</div>
     <span class="chip">demo: planted leaks total $18,650/yr</span>

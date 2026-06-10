@@ -2,7 +2,7 @@
 
 **Tagline:** An agentic revenue-leak auditor for B2B SaaS finance teams — it verifies your data is fresh *before* it trusts it.
 
-**Try it out:** Live demo → `<CLOUD_RUN_URL>` · GitHub → `<REPO_URL>` · Video → `<VIDEO_URL>`
+**Try it out:** Live demo → https://revenueguard-273367103135.us-central1.run.app · GitHub → https://github.com/SebAustin/revenueguard · Video → `<VIDEO_URL>`
 
 ---
 

@@ -4,6 +4,7 @@
 
 ![RevenueGuard — $18,650/yr recovered across 5 leak families](docs/thumbnail.png)
 
+> 🚀 **Live demo:** https://revenueguard-273367103135.us-central1.run.app — pick the `revenueguard` app and ask: *"Audit my revenue for leaks across all five leak families."*
 > 🎬 Pitch video: [`deploy/revenueguard_pitch.mp4`](deploy/revenueguard_pitch.mp4) *(YouTube link coming with the submission)*
 
 ---
