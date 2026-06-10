@@ -21,3 +21,5 @@ vendor/fivetran-mcp/
 .DS_Store
 .adk/
 *.log
+# build intermediates for the pitch video (final mp4 kept in deploy/)
+deploy/video/

@@ -2,7 +2,9 @@
 
 **An agentic revenue-leak auditor for B2B SaaS finance teams — it verifies your data is fresh *before* it trusts it.**
 
-> _Demo GIF + video link go here once recorded._
+![RevenueGuard — $18,650/yr recovered across 5 leak families](docs/thumbnail.png)
+
+> 🎬 Pitch video: [`deploy/revenueguard_pitch.mp4`](deploy/revenueguard_pitch.mp4) *(YouTube link coming with the submission)*
 
 ---
 
@@ -33,6 +35,24 @@ loop:
 
 ## Architecture
 
+![RevenueGuard architecture — verify → audit → report, with the Fivetran freshness gate on the critical path](docs/architecture.png)
+
+The mandatory sequence the agent's instruction enforces:
+
+1. **① Freshness gate** — the agent calls the **Fivetran MCP** (`list_connections`,
+   `get_connection_details`) to check the billing connector. Paused, broken, or
+   last-synced > 24h ago ⇒ it **refuses to audit**, reports why, and — with your
+   approval — resumes the connector (`modify_connection`) and triggers a sync
+   (`sync_connection`).
+2. **② Audit** — five deterministic leak-family SQL queries run over the
+   Fivetran-shaped tables in **BigQuery** (`bigquery_run_audit`, with
+   `get_leak_query` exposing the SQL evidence on demand).
+3. **③ Report** — `compute_exposure` and `build_report` are plain deterministic
+   functions (no LLM inside): same findings, same dollars, every run.
+
+<details>
+<summary>Text version of the diagram</summary>
+
 ```
                     ┌──────────────────────────────────────┐
    Web UI           │           RevenueGuard Agent          │
@@ -42,14 +62,20 @@ loop:
         └──────────▶│  Tools:                               │
                     │   1) Fivetran MCP (McpToolset)  ◀── pipeline freshness/health/resync
                     │   2) bigquery_run_audit         ◀── leak SQL over landed data
-                    │   3) compute_exposure           ◀── $ per finding
-                    │   4) build_report               ◀── ranked markdown/JSON report
+                    │   3) get_leak_query             ◀── SQL evidence on demand
+                    │   4) compute_exposure           ◀── $ per finding
+                    │   5) build_report               ◀── ranked markdown/JSON report
                     └───────────────┬───────────────────────┘
           ┌─────────────────────────┴───────────────────────┐
           ▼                                                   ▼
-   Fivetran MCP server                               BigQuery dataset
-   (stdio child process)                             revenueguard_demo.*
+   Fivetran MCP server (uvx, stdio)                  BigQuery dataset
+   list/details/modify/sync_connection               revenueguard_demo.*
+          │                                                   ▲
+          ▼                                                   │
+   Fivetran pipeline: stripe_billing connector ──── sync ─────┘
 ```
+
+</details>
 
 ## Tech stack
 

@@ -1,0 +1,152 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1600px;height:1060px}
+  body{font-family:-apple-system,"Helvetica Neue",Arial,sans-serif;color:#F4F7FF;
+    background:
+      radial-gradient(1100px 650px at 80% -10%, rgba(43,217,166,.16), transparent 60%),
+      radial-gradient(950px 750px at 5% 112%, rgba(99,102,241,.24), transparent 55%),
+      linear-gradient(135deg,#0A1230 0%,#111A47 55%,#0B1640 100%);
+    background-color:#0A1230;padding:48px 64px;position:relative}
+  .grid{position:absolute;inset:0;background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+    background-size:56px 56px;mask-image:linear-gradient(180deg,rgba(0,0,0,.5),transparent 80%)}
+  .title{display:flex;align-items:center;gap:18px;margin-bottom:10px;position:relative}
+  .title svg{width:46px;height:46px}
+  .title h1{font-size:38px;font-weight:800;letter-spacing:-.5px}
+  .title h1 .g{color:#2BD9A6}
+  .title .sub{margin-left:auto;font-size:19px;color:#9AA4CE;font-weight:500}
+  .canvas{position:relative;height:870px;margin-top:14px}
+  .box{position:absolute;border-radius:16px;padding:18px 22px;
+    background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.12)}
+  .box h3{font-size:21px;font-weight:760;display:flex;align-items:center;gap:10px}
+  .box h3 .ic{font-size:23px}
+  .box .d{font-size:15.5px;color:#9AA4CE;margin-top:6px;line-height:1.45}
+  .box .chip{display:inline-block;font-size:13px;font-weight:700;color:#8FA0FF;
+    background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.35);
+    border-radius:7px;padding:2px 9px;margin:7px 5px 0 0}
+  .box.green{border-color:rgba(43,217,166,.45);background:rgba(43,217,166,.06)}
+  .box.green h3{color:#2BD9A6}
+  .box.blue{border-color:rgba(99,102,241,.5);background:rgba(99,102,241,.08)}
+  .box.gold{border-color:rgba(255,212,121,.4);background:rgba(255,212,121,.05)}
+  .box.gold h3{color:#FFD479}
+  .agent{box-shadow:0 0 50px rgba(43,217,166,.12)}
+  .agent .model{font-size:14px;color:#0A1230;background:#2BD9A6;display:inline-block;
+    font-weight:800;border-radius:8px;padding:3px 11px;margin-top:8px}
+  .tool{position:absolute;border-radius:12px;padding:12px 16px;font-size:16px;font-weight:650;
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14)}
+  .tool small{display:block;font-size:13px;color:#9AA4CE;font-weight:500;margin-top:3px}
+  .lbl{position:absolute;font-size:14.5px;font-weight:700;color:#2BD9A6;background:#0C1738;
+    border:1px solid rgba(43,217,166,.5);border-radius:999px;padding:5px 14px;z-index:5;white-space:nowrap}
+  .lbl.purple{color:#A5B0FF;border-color:rgba(99,102,241,.6)}
+  .lbl.gold{color:#FFD479;border-color:rgba(255,212,121,.5)}
+  svg.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .seq{position:absolute;left:0;bottom:0;display:flex;gap:14px;align-items:center}
+  .seq .s{font-size:16.5px;font-weight:650;color:#D7DDF6;background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:11px 18px}
+  .seq .s b{color:#2BD9A6}
+  .seq .a{color:#2BD9A6;font-weight:800;font-size:20px}
+</style></head><body>
+<div class="grid"></div>
+<div class="title">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5.2v6.3c0 4.7 3.3 8.9 8 10.5 4.7-1.6 8-5.8 8-10.5V5.2L12 2Z" fill="#2BD9A6" opacity=".18"/><path d="M12 2 4 5.2v6.3c0 4.7 3.3 8.9 8 10.5 4.7-1.6 8-5.8 8-10.5V5.2L12 2Z" stroke="#2BD9A6" stroke-width="1.3"/><path d="M8.4 12.3l2.5 2.5 4.7-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <h1>Revenue<span class="g">Guard</span> — Architecture</h1>
+  <div class="sub">verify → audit → report &nbsp;·&nbsp; the freshness gate is on the critical path</div>
+</div>
+
+<div class="canvas">
+  <svg class="wires" viewBox="0 0 1472 870">
+    <defs>
+      <marker id="ag" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+        <path d="M0,0 L8,4.5 L0,9 z" fill="#2BD9A6"/></marker>
+      <marker id="ap" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+        <path d="M0,0 L8,4.5 L0,9 z" fill="#8FA0FF"/></marker>
+      <marker id="aw" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+        <path d="M0,0 L8,4.5 L0,9 z" fill="#FFD479"/></marker>
+    </defs>
+    <!-- user -> agent -->
+    <path d="M 218 130 H 360" stroke="#2BD9A6" stroke-width="2.5" fill="none" marker-end="url(#ag)"/>
+    <!-- agent -> fivetran mcp (left down) -->
+    <path d="M 520 258 V 420 H 420" stroke="#2BD9A6" stroke-width="2.5" fill="none" marker-end="url(#ag)"/>
+    <!-- fivetran mcp -> fivetran cloud -->
+    <path d="M 250 530 V 610" stroke="#2BD9A6" stroke-width="2.5" fill="none" marker-end="url(#ag)"/>
+    <!-- fivetran cloud -> bigquery (sync) -->
+    <path d="M 470 700 H 880" stroke="#FFD479" stroke-width="2.5" stroke-dasharray="9 7" fill="none" marker-end="url(#aw)"/>
+    <!-- agent -> bigquery tools (right down) -->
+    <path d="M 760 258 V 420 H 860" stroke="#8FA0FF" stroke-width="2.5" fill="none" marker-end="url(#ap)"/>
+    <!-- bigquery tools -> dataset -->
+    <path d="M 1040 530 V 610" stroke="#8FA0FF" stroke-width="2.5" fill="none" marker-end="url(#ap)"/>
+    <!-- agent -> report tools (far right) -->
+    <path d="M 935 190 H 1120" stroke="#8FA0FF" stroke-width="2.5" fill="none" marker-end="url(#ap)"/>
+    <!-- sources -> fivetran cloud -->
+    <path d="M 110 640 V 660 " stroke="#5A66A0" stroke-width="2" fill="none"/>
+  </svg>
+
+  <!-- User / UI -->
+  <div class="box" style="left:0;top:78px;width:218px">
+    <h3><span class="ic">👤</span>Finance team</h3>
+    <div class="d">Web chat UI — <b>adk web</b> locally, Cloud Run hosted</div>
+  </div>
+
+  <!-- Agent -->
+  <div class="box green agent" style="left:360px;top:60px;width:575px;height:198px">
+    <h3><span class="ic">🛡️</span>RevenueGuard Agent — ADK LlmAgent (Agent Builder)</h3>
+    <div class="d">Instruction enforces the mandatory sequence: <b style="color:#2BD9A6">1 verify freshness → 2 audit → 3 quantify &amp; report</b>. Proposes writes; the human approves them.</div>
+    <span class="model">gemini-2.5-pro · Vertex AI</span>
+    <div>
+      <span class="chip">McpToolset → Fivetran</span>
+      <span class="chip">bigquery_run_audit</span>
+      <span class="chip">get_leak_query</span>
+      <span class="chip">compute_exposure</span>
+      <span class="chip">build_report</span>
+    </div>
+  </div>
+
+  <!-- step labels on wires -->
+  <div class="lbl" style="left:430px;top:330px">① freshness gate — health / last-sync / resume / re-sync</div>
+  <div class="lbl purple" style="left:790px;top:330px">② leak SQL ×5</div>
+  <div class="lbl purple" style="left:960px;top:158px">③ rank &amp; report</div>
+  <div class="lbl gold" style="left:580px;top:668px">Fivetran sync lands billing data</div>
+
+  <!-- Fivetran MCP -->
+  <div class="box green" style="left:60px;top:420px;width:360px;height:110px">
+    <h3><span class="ic">🔌</span>Fivetran MCP server</h3>
+    <div class="d">stdio child via <b>uvx</b> · official fivetran/fivetran-mcp<br>
+    <b>list_connections · get_connection_details · modify_connection · sync_connection</b></div>
+  </div>
+
+  <!-- BigQuery tools -->
+  <div class="box blue" style="left:860px;top:420px;width:360px;height:110px">
+    <h3><span class="ic">🔎</span>Leak detection (FunctionTools)</h3>
+    <div class="d">5 deterministic SQL families: failed payments, expired cards, usage-on-cancelled, overdue renewals, expired discounts</div>
+  </div>
+
+  <!-- Report tools -->
+  <div class="box blue" style="left:1120px;top:130px;width:352px;height:128px">
+    <h3><span class="ic">📊</span>Reporting (deterministic)</h3>
+    <div class="d"><b>compute_exposure</b> → $/finding, annualized<br><b>build_report</b> → ranked markdown + JSON<br>No LLM calls — same numbers every run</div>
+  </div>
+
+  <!-- Fivetran cloud -->
+  <div class="box gold" style="left:60px;top:610px;width:410px;height:128px">
+    <h3><span class="ic">🚰</span>Fivetran (pipeline layer)</h3>
+    <div class="d">Connector <b>stripe_billing</b> → BigQuery destination.<br>Status: paused / broken / stale &gt;24h ⇒ <b style="color:#FFD479">the agent refuses to audit</b> until re-synced.</div>
+    <span class="chip" style="color:#FFD479;border-color:rgba(255,212,121,.4);background:rgba(255,212,121,.08)">sources: Stripe · billing DB · CRM</span>
+  </div>
+
+  <!-- BigQuery dataset -->
+  <div class="box blue" style="left:880px;top:610px;width:592px;height:128px">
+    <h3><span class="ic">🗄️</span>BigQuery — revenueguard_demo</h3>
+    <div class="d">Fivetran-shaped landed tables: customers · subscriptions · invoices · payments · payment_methods · usage_events · discounts (each with <b>_fivetran_synced</b>)</div>
+    <span class="chip">demo: planted leaks total $18,650/yr</span>
+  </div>
+
+  <!-- sequence strip -->
+  <div class="seq">
+    <div class="s"><b>①</b> Gate: Fivetran healthy &amp; fresh? If paused/stale → stop, ask, resume + re-sync</div><div class="a">→</div>
+    <div class="s"><b>②</b> Audit: run 5 leak-family SQL over landed data</div><div class="a">→</div>
+    <div class="s"><b>③</b> Report: rank by $ exposure with SQL evidence &amp; actions</div>
+  </div>
+</div>
+</body></html>
